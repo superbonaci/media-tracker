@@ -53,6 +53,15 @@ Repeat for the `server` folder.
 
 The project uses the TMDb API and requires an API key. After creating an account on [TMDb](https://www.themoviedb.org), you can request an API key under `Profile > Settings > API`. Please add your key in `./client/src/config.js`!
 
+This project uses [Browserslist](https://github.com/browserslist/browserslist) to determine which CSS prefixes and JS polyfills are needed based on current browser market share.
+
+To ensure the build is optimized for modern browsers and to silence deprecation warnings, periodically update the database in the client:
+
+```sh
+cd client
+npx update-browserslist-db@latest
+```
+
 Afterwards open two separate terminal windows and run `npm start` in the `client` folder as well as the `server` folder.
 
 The `client` (frontend) will run at `http://localhost:3000` (opens automatically), and the `server` (backend) will run on port 3001.
