@@ -66,6 +66,14 @@ Afterwards open two separate terminal windows and run `npm start` in the `client
 
 The `client` (frontend) will run at `http://localhost:3000` (opens automatically), and the `server` (backend) will run on port 3001.
 
+### Missing cover images
+
+Some titles (especially recently announced or pre-production works like [*Avatar: Seven Havens*](https://www.themoviedb.org/tv/284833-avatar-seven-havens)) don't have a cover as of January 2026.
+
+This happens because the project relies on **The Movie Database (TMDb)** API. If a show hasn't released an official marketing poster yet, TMDb often has no image to serve.
+
+Other websites like IMDb show a `frame grab` or screenshot from the movie, until the official artwork is released.
+
 ### Code guidelines
 
 Used style guides *(enforced with ESLint)*:
