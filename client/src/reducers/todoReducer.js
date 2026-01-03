@@ -1,4 +1,4 @@
-export default (state = {}, { type, payload, category }) => {
+const todoReducer = (state = {}, { type, payload, category }) => {
   // Set the highest season number of done episodes.
   // Default to 1 for actively tracked media and never tracked media.
   const addData = {};
@@ -23,3 +23,5 @@ export default (state = {}, { type, payload, category }) => {
       return state;
   }
 };
+
+export default todoReducer;
