@@ -38,7 +38,7 @@ class MediaDetails extends React.Component {
 
     const { selectedTodo } = this.props;
 
-    if (seasons && seasons.length > 0 && selectedTodo && selectedTodo.newestActiveSeason) {
+    if (seasons && seasons.length > 0 && selectedTodo && selectedTodo.newestActiveSeason !== undefined) {
       return (
         <Grid.Row>
           <Grid.Column width={3}></Grid.Column>
@@ -47,6 +47,7 @@ class MediaDetails extends React.Component {
               mediaId={id}
               newestActiveSeason={selectedTodo.newestActiveSeason}
               numberOfSeasons={numberOfSeasons}
+              seasons={seasons}
               todo={selectedTodo}
             />
           </Grid.Column>

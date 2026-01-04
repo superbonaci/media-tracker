@@ -17,6 +17,8 @@ The project is work in progress, right now you can:
 - See all your tracked (to do) tv shows and movies on one page
 - See all your watched (done) tv shows and movies on one page
 
+Includes the `Specials` season, also called `Season 0` or `Season 00`.
+
 It comes with convenient features like the automatic selection of the latest season watched. However, I don’t consider this version as feature complete. In the long run, it should also cover other media like books and maybe games.
 
 Styling is currently based on [Semantic UI React](https://react.semantic-ui.com), so that it can be easily picked-up by the community. There’s no theme, or much design optimization done at the moment, because it wasn’t a priority.
