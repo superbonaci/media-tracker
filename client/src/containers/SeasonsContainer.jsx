@@ -13,12 +13,31 @@ class SeasonsContainer extends React.Component {
 
   onDropdownChange = (event, { value }) => this.props.selectSeason(value);
 
+  // IMPORTANT: season 0 ("Specials") is a valid value, so we must not use `||`
+  // because `0 || something` will always fall back to `something`.
+  getActiveSeason = () => {
+    const { selectedSeason, newestActiveSeason } = this.props;
 
-  getDropdownOptions = (numberOfSeasons) => {
+    return (selectedSeason !== null && selectedSeason !== undefined)
+      ? selectedSeason
+      : newestActiveSeason;
+  };
+
+  getDropdownOptions = (seasons, numberOfSeasons) => {
+    // Prefer TMDb seasons array if available (it includes season_number 0 when Specials exist)
+    if (Array.isArray(seasons) && seasons.length > 0) {
+      return seasons
+        .filter((s) => Number.isFinite(s.season_number))
+        .sort((a, b) => a.season_number - b.season_number)
+        .map((s) => ({
+          key: s.season_number,
+          value: s.season_number,
+          text: s.name || (s.season_number === 0 ? 'Specials' : `Season ${s.season_number}`),
+        }));
+    }
+
+    // Fallback: generate options from 1..numberOfSeasons
     const dropdownOptions = [];
-
-    // Generate dropdown options
-    // Start at 1, as TMDb stores “Specials” on index 0
     for (let i = 1; i <= numberOfSeasons; i++) {
       dropdownOptions.push({
         key: i,
@@ -26,22 +45,19 @@ class SeasonsContainer extends React.Component {
         value: i,
       });
     }
-
     return dropdownOptions;
-  }
-
+  };
 
   getSeasonDoneStatus = () => {
     const {
       episodes,
-      newestActiveSeason,
-      selectedSeason,
       selectedTodo,
     } = this.props;
 
-    // On init, auto-select the newestActiveSeason, if available.
-    // Afterwards, use the dropdown selected season.
-    const activeSeason = selectedSeason || newestActiveSeason;
+    const activeSeason = this.getActiveSeason();
+
+    // If episodes aren't loaded yet (or season has no episodes), don't show as done
+    if (!episodes || episodes.length === 0) return false;
 
     // Init season episodes status
     let doneEpisodes = [];
@@ -53,27 +69,19 @@ class SeasonsContainer extends React.Component {
       doneEpisodes = selectedTodo.seasons[activeSeason].done_episodes;
     }
 
-    if (doneEpisodes.length === episodes.length) return true;
-
-    return false;
-  }
-
+    return (doneEpisodes.length === episodes.length);
+  };
 
   toggleSeasonStatus = () => {
-    const {
-      episodes,
-      mediaId,
-      newestActiveSeason,
-      selectedSeason,
-    } = this.props;
+    const { episodes, mediaId } = this.props;
 
-    const activeSeason = selectedSeason || newestActiveSeason;
+    const activeSeason = this.getActiveSeason();
     const doneEpisodes = [];
     const seasonDoneStatus = this.getSeasonDoneStatus();
 
     // Add all episodes to done
     if (!seasonDoneStatus) {
-      for (let i = 1; i <= episodes.length; i++) doneEpisodes.push(i);
+      for (const ep of episodes) doneEpisodes.push(ep.episode_number);
     }
 
     const addSeasonData = {
@@ -81,25 +89,23 @@ class SeasonsContainer extends React.Component {
     };
 
     this.props.updateTodoSeason(mediaId, 'tv', addSeasonData);
-  }
-
+  };
 
   render() {
     const {
       mediaId,
-      newestActiveSeason,
       numberOfSeasons,
-      selectedSeason,
+      seasons,
     } = this.props;
 
-    const activeSeason = selectedSeason || newestActiveSeason;
+    const activeSeason = this.getActiveSeason();
 
     return (
       <React.Fragment>
         <Seasons
           buttonOnClick={this.toggleSeasonStatus}
           dropdownOnChange={this.onDropdownChange}
-          dropdownOptions={this.getDropdownOptions(numberOfSeasons)}
+          dropdownOptions={this.getDropdownOptions(seasons, numberOfSeasons)}
           seasonDoneStatus={this.getSeasonDoneStatus()}
           selectedSeason={activeSeason}
         />
@@ -115,6 +121,7 @@ class SeasonsContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   episodes: state.mediaEpisodes,
+  seasons: state.mediaDetails && state.mediaDetails.seasons,
   selectedSeason: state.ui.activeSeason,
   selectedTodo: state.selectedTodo,
 });
