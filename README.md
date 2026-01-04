@@ -66,7 +66,7 @@ npx update-browserslist-db@latest
 
 Afterwards open two separate terminal windows and run `npm start` in the `server` folder, then `npm run dev` in the `client` folder.
 
-The `client` (frontend) will run at `http://localhost:5173` (opens automatically), and the `server` (backend) will run on port 3001.
+The `client` (frontend) will run at [http://localhost:5173](http://localhost:5173), and the `server` (backend) will run on port 3001.
 
 ### Missing cover images
 
