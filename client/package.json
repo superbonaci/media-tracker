@@ -1,11 +1,11 @@
 {
   "name": "media-tracker",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Self-hosted open source media-tracker for tv shows and movies.",
   "author": "Michael Xander",
-  "bugs": "https://github.com/michaelx/media-tracker/issues",
+  "bugs": "https://github.com/superbonaci/media-tracker/issues",
   "license": "MIT",
-  "repository": "https://github.com/michaelx/media-tracker",
+  "repository": "https://github.com/superbonaci/media-tracker",
   "dependencies": {
     "axios": "^1.2.1",
     "history": "^4.10.1",
@@ -13,17 +13,16 @@
     "react-dom": "^18.2.0",
     "react-redux": "^7.2.9",
     "react-router-dom": "^5.3.4",
-    "react-scripts": "5.0.1",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "lint": "eslint ."
   },
   "browserslist": {
@@ -43,5 +42,9 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "vite": "^7.3.0"
   }
 }
